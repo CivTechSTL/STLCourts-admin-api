@@ -10,7 +10,4 @@ public class LogSystem {
 		System.out.println("Database Exception: " + e.getMessage());
 	}
 
-	public static void LogCitationDataSourceException(String message) {
-	    System.out.println("Citation Data Source Exception: " + message);
-    }
 }
