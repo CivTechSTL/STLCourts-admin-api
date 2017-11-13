@@ -1,0 +1,1 @@
+UPDATE court SET court_name=:name, phone=:phone,extension=:extension,website=:website,payment_system=:paymentSystem,address=:address,city=:city,state=:state,zip_code=:zipCode,latitude=:latitude,longitude=:longitude,citation_expires_after_days=:citationExpires WHERE court_id = :id;
