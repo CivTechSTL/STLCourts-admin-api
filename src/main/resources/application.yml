@@ -19,6 +19,9 @@ spring:
 ---
 spring:
   profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
 stlcourts:
   runHeadless: true
   security:
@@ -30,6 +33,9 @@ management:
 ---
 spring:
   profiles: localWithHSQLAccess
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
 stlcourts:
   runHeadless: false
   security:
@@ -39,6 +45,9 @@ stlcourts:
 ---
 spring:
   profiles: qa
+  jpa:
+    hibernate:
+      ddl-auto: none
 spring.datasource:
   driverClassName: com.mysql.jdbc.Driver
   url: jdbc:mysql:${MYSQL_URL}?useUnicode=true&amp;characterEncoding=UTF-8
@@ -56,6 +65,9 @@ stlcourts:
 ---
 spring:
   profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: none
 spring.datasource:
   driverClassName: com.mysql.jdbc.Driver
   url: jdbc:mysql:${MYSQL_URL}?useUnicode=true&amp;characterEncoding=UTF-8

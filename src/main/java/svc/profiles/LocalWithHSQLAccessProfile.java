@@ -16,13 +16,16 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 @Configuration
 @Profile("localWithHSQLAccess")
 public class LocalWithHSQLAccessProfile {
-	@Bean
+/*	@Bean
 	public DataSource dataSource() {
 		EmbeddedDatabaseBuilder dbBuilder = new EmbeddedDatabaseBuilder();
 		return dbBuilder.setType(EmbeddedDatabaseType.HSQL)
+				.addScript("sql/schema/schema-tables.sql")
+				.addScript("hsql/courts.sql")
+				.addScript("hsql/judges.sql")
 				.build();
 	}
-	
+	*/
 	//default db: testdb, username : sa, password : ''
 		@PostConstruct
 		public void getDbManager() throws SQLException{

@@ -15,6 +15,9 @@ public class LocalProfile {
 	public DataSource dataSource() {
 		EmbeddedDatabaseBuilder dbBuilder = new EmbeddedDatabaseBuilder();
 		return dbBuilder.setType(EmbeddedDatabaseType.HSQL)
+				.addScript("sql/schema/schema-tables.sql")
+				.addScript("hsql/courts.sql")
+				.addScript("hsql/judges.sql")
 				.build();
 	}
 	
