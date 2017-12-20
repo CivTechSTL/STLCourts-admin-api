@@ -2,15 +2,26 @@ package svc.models;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+// https://vladmihalcea.com/2017/03/29/the-best-way-to-map-a-onetomany-association-with-jpa-and-hibernate/
 
 @Entity
 public class Court {
-	private Long court_id;
-	private String court_name;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="court_id")
+	private Long id;
+	
+	@Column(name="court_name")
+	private String name;
 	private String phone;
 	private String website;
 	private String extension;
@@ -18,27 +29,40 @@ public class Court {
 	private String paymentSystem;
 	private String city;
 	private String state;
-	private String zip_code;
-	private BigDecimal latitude;
-	private BigDecimal longitude;
-	//private List<Judge> judges;
-	private int citation_expires_after_days;
-	private  String rights_type;
-	private String rights_value;	
 	
-	@Id
-	@GeneratedValue
-	public Long getCourt_id() {
-		return court_id;
+	@Column(name="zip_code")
+	private String zipCode;
+	private Double latitude;
+	private Double longitude;
+	
+	@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+	@JoinColumn(name = "court_id")
+	private List<Judge> judges;
+	
+	@Column(name="citation_expires_after_days")
+	private int citationExpiresAfterDays;
+	
+	@Column(name="rights_type")
+	private  String rightsType;
+	
+	@Column(name="rights_value")
+	private String rightsValue;	
+	
+	public Court(){
+		
 	}
-	public void setCourt_id(Long court_id) {
-		this.court_id = court_id;
+	
+	public Long getId() {
+		return id;
 	}
-	public String getCourt_name() {
-		return court_name;
+	public void setId(Long id) {
+		this.id = id;
 	}
-	public void setCourt_name(String court_name) {
-		this.court_name = court_name;
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
 	}
 	public String getPhone() {
 		return phone;
@@ -82,46 +106,51 @@ public class Court {
 	public void setState(String state) {
 		this.state = state;
 	}
-	public String getZip_code() {
-		return zip_code;
+	public String getZipCode() {
+		return zipCode;
 	}
-	public void setZip_code(String zip_code) {
-		this.zip_code = zip_code;
+	public void setZipCode(String zipCode) {
+		this.zipCode = zipCode;
 	}
-	public BigDecimal getLatitude() {
+	public Double getLatitude() {
 		return latitude;
 	}
-	public void setLatitude(BigDecimal latitude) {
+	public void setLatitude(Double latitude) {
 		this.latitude = latitude;
 	}
-	public BigDecimal getLongitude() {
+	public Double getLongitude() {
 		return longitude;
 	}
-	public void setLongitude(BigDecimal longitude) {
+	public void setLongitude(Double longitude) {
 		this.longitude = longitude;
 	}
-	/*public List<Judge> getJudges() {
+	public List<Judge> getJudges() {
 		return judges;
 	}
 	public void setJudges(List<Judge> judges) {
 		this.judges = judges;
-	}*/
-	public int getCitation_expires_after_days() {
-		return citation_expires_after_days;
 	}
-	public void setCitation_expires_after_days(int citation_expires_after_days) {
-		this.citation_expires_after_days = citation_expires_after_days;
+	public int getCitationExpiresAfterDays() {
+		return citationExpiresAfterDays;
 	}
-	public String getRights_type() {
-		return rights_type;
+
+	public void setCitationExpiresAfterDays(int citationExpiresAfterDays) {
+		this.citationExpiresAfterDays = citationExpiresAfterDays;
 	}
-	public void setRights_type(String rights_type) {
-		this.rights_type = rights_type;
+
+	public String getRightsType() {
+		return rightsType;
 	}
-	public String getRights_value() {
-		return rights_value;
+
+	public void setRightsType(String rightsType) {
+		this.rightsType = rightsType;
 	}
-	public void setRights_value(String rights_value) {
-		this.rights_value = rights_value;
+
+	public String getRightsValue() {
+		return rightsValue;
+	}
+
+	public void setRightsValue(String rightsValue) {
+		this.rightsValue = rightsValue;
 	}
 }

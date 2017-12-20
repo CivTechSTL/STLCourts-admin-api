@@ -1,6 +1,6 @@
 server:
   port: 8080
-  contextPath: /api
+  contextPath: /admin-api
 
 management:
   context-path: /manage
@@ -22,6 +22,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: svc.dialects.ImprovedHSQLDialect
+  datasource:
+    data: classpath*:hsql/*.sql
 stlcourts:
   runHeadless: true
   security:
@@ -36,6 +41,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: svc.dialects.ImprovedHSQLDialect
+  datasource:
+    data: classpath*:hsql/*.sql
 stlcourts:
   runHeadless: false
   security:

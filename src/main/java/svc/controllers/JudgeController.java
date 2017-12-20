@@ -11,37 +11,36 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import svc.models.Court;
-import svc.repositories.CourtJpaRepository;
+import svc.models.Judge;
+import svc.repositories.JudgeJpaRepository;
 
 
 @RestController
 @EnableAutoConfiguration
-public class CourtController {
+public class JudgeController {
 	
 	@Autowired
-	private CourtJpaRepository courtJpaRepository;
+	private JudgeJpaRepository judgeJpaRepository;
 	
-	@GetMapping(value = "courts")
-	public List<Court> findAll(){
-		return courtJpaRepository.findAll();
+	@GetMapping(value = "judges")
+	public List<Judge> findAll(){
+		return judgeJpaRepository.findAll();
 	}
 	
-	@GetMapping(value = "courts/{id}")
-	public Court getOne(@PathVariable final Long id){
-		Court c = courtJpaRepository.findOne(id);
-		return c;
+	@GetMapping(value = "judges/{id}")
+	public Judge getOne(@PathVariable final Long id){
+		return judgeJpaRepository.findOne(id);
 	}
 	
-	@PostMapping(value = "courts")
-	public Court load(@RequestBody final Court court){
-		Court savedCourt = courtJpaRepository.save(court);
-		return courtJpaRepository.getOne(savedCourt.getId());
+	@PostMapping(value = "judges")
+	public Judge load(@RequestBody final Judge judge){
+		Judge savedJudge = judgeJpaRepository.save(judge);
+		return judgeJpaRepository.getOne(savedJudge.getId());
 	}
 	
-	@DeleteMapping(value = "courts/{id}")
+	@DeleteMapping(value = "judges/{id}")
 	public void delete(@PathVariable final Long id){
-		courtJpaRepository.delete(id);
+		judgeJpaRepository.delete(id);
 	}
 	
 }

@@ -1,15 +1,27 @@
 package svc.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
-
+@Entity
+@Table(name = "judges")
 public class Judge 
 {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	private String judge;
-	private Long court_id;
+	
+	@Column(name = "court_id")
+	private Long courtId;
+	
+	public Judge(){
+		
+	}
 	
 	public Long getId() {
 		return id;
@@ -23,10 +35,11 @@ public class Judge
 	public void setJudge(String judge) {
 		this.judge = judge;
 	}
-	public long getCourt_id() {
-		return court_id;
+	public Long getCourtId() {
+		return courtId;
 	}
-	public void setCourt_id(Long court_id) {
-		this.court_id = court_id;
+	public void setCourtId(Long courtId) {
+		this.courtId = courtId;
 	}
+
 }

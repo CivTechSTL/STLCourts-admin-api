@@ -1,13 +1,12 @@
 package svc.repositories;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
-import svc.models.Users;
+import svc.models.Judge;
+
 
 @Component
-public interface UserJpaRespository extends JpaRepository<Users, Long>{
+public interface JudgeJpaRepository extends JpaRepository<Judge, Long>{
 
-    Users findByName(String name);
 }

@@ -45,7 +45,6 @@ INSERT INTO judges(id,judge,court_id) VALUES (44,'Keith Cheung',42);
 INSERT INTO judges(id,judge,court_id) VALUES (45,'Richard Bumb',44);
 INSERT INTO judges(id,judge,court_id) VALUES (46,'Michael Gunn',45);
 INSERT INTO judges(id,judge,court_id) VALUES (47,'Brian Dunlop',46);
-INSERT INTO judges(id,judge,court_id) VALUES (48,'Ronald Wessel',47);
 INSERT INTO judges(id,judge,court_id) VALUES (49,'Kevin Kelly',48);
 INSERT INTO judges(id,judge,court_id) VALUES (50,'Jennifer Fisher',49);
 INSERT INTO judges(id,judge,court_id) VALUES (51,'Raphael Norris',50);
