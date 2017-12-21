@@ -34,8 +34,7 @@ public class JudgeController {
 	
 	@PostMapping(value = "judges")
 	public Judge load(@RequestBody final Judge judge){
-		Judge savedJudge = judgeJpaRepository.save(judge);
-		return judgeJpaRepository.getOne(savedJudge.getId());
+		return judgeJpaRepository.save(judge);
 	}
 	
 	@DeleteMapping(value = "judges/{id}")

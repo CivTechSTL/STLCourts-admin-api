@@ -29,14 +29,13 @@ public class CourtController {
 	
 	@GetMapping(value = "courts/{id}")
 	public Court getOne(@PathVariable final Long id){
-		Court c = courtJpaRepository.findOne(id);
-		return c;
+		return courtJpaRepository.findOne(id);
+		 
 	}
 	
 	@PostMapping(value = "courts")
 	public Court load(@RequestBody final Court court){
-		Court savedCourt = courtJpaRepository.save(court);
-		return courtJpaRepository.getOne(savedCourt.getId());
+		return courtJpaRepository.save(court);
 	}
 	
 	@DeleteMapping(value = "courts/{id}")
