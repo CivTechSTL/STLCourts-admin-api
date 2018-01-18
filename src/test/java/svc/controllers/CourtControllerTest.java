@@ -16,7 +16,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import svc.models.Court;
-import svc.repositories.CourtJpaRepository;
+import svc.repositories.CourtRepository;
 
 
 @RunWith(MockitoJUnitRunner.class)
@@ -25,7 +25,7 @@ public class CourtControllerTest {
 	CourtController controller;
 
 	@Mock
-	CourtJpaRepository mockCourtJpaRepository;
+	CourtRepository mockCourtRepository;
 	
 	@Test
 	public void findsAll(){
@@ -38,7 +38,7 @@ public class CourtControllerTest {
 		
 		final List<Court> COURTS = Arrays.asList(court1, court2);
 		
-		when(mockCourtJpaRepository.findAll()).thenReturn(COURTS);
+		when(mockCourtRepository.findAll()).thenReturn(COURTS);
 		
 		List<Court> returnedCourts = controller.findAll();
 		assertThat(returnedCourts, equalTo(COURTS));
@@ -50,7 +50,7 @@ public class CourtControllerTest {
 		court1.setId(1L);
 		court1.setName("One Court");
 		
-		when(mockCourtJpaRepository.findOne(anyLong())).thenReturn(court1);
+		when(mockCourtRepository.findOne(anyLong())).thenReturn(court1);
 		Court court = controller.getOne(1L);
 		assertThat(court, equalTo(court1));
 	}
@@ -61,7 +61,7 @@ public class CourtControllerTest {
 		court1.setId(1L);
 		court1.setName("One Court");
 		
-		when(mockCourtJpaRepository.save(court1)).thenReturn(court1);
+		when(mockCourtRepository.save(court1)).thenReturn(court1);
 		Court court = controller.load(court1);
 		assertThat(court, equalTo(court1));
 	}
@@ -69,6 +69,6 @@ public class CourtControllerTest {
 	@Test
 	public void deletes(){
 		controller.delete(2L);
-		verify(mockCourtJpaRepository).delete(2L);
+		verify(mockCourtRepository).delete(2L);
 	}
 }

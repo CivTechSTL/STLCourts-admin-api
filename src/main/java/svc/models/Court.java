@@ -1,6 +1,5 @@
 package svc.models;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;

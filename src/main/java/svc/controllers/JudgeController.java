@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import svc.models.Judge;
-import svc.repositories.JudgeJpaRepository;
+import svc.repositories.JudgeRepository;
 
 
 @RestController
@@ -20,28 +20,27 @@ import svc.repositories.JudgeJpaRepository;
 public class JudgeController {
 	
 	@Autowired
-	private JudgeJpaRepository judgeJpaRepository;
+	private JudgeRepository judgeRepository;
 	
 	@GetMapping(value = "judges")
 	public List<Judge> findAll(){
-		return judgeJpaRepository.findAll();
+		return (List<Judge>) judgeRepository.findAll();
 	}
 	
 	@GetMapping(value = "judges/{id}")
 	public Judge getOne(@PathVariable final Long id){
-		return judgeJpaRepository.findOne(id);
+		return judgeRepository.findOne(id);
 	}
 	
 	@PostMapping(value = "judges")
 	public Judge load(@RequestBody final Judge judge){
-		return judgeJpaRepository.save(judge);
+		return judgeRepository.save(judge);
 	}
 	
 	@DeleteMapping(value = "judges/{id}")
 	public void delete(@PathVariable final Long id){
-		judgeJpaRepository.delete(id);
+		judgeRepository.delete(id);
 	}
-	
 }
 
 

@@ -1,1 +1,0 @@
-INSERT INTO court (court_name,phone,extension,website,payment_system,address,city,state,zip_code,latitude,longitude,citation_expires_after_days) VALUES (:name,:phone,:extension,:website,:paymentSystem,:address,:city,:state,:zipCode,:latitude,:longitude,:citationExpires)
