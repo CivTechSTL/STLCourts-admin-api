@@ -1,6 +1,6 @@
 server:
   port: 8080
-  contextPath: /api
+  contextPath: /admin-api
 
 management:
   context-path: /manage
@@ -19,18 +19,45 @@ spring:
 ---
 spring:
   profiles: local
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: svc.dialects.ImprovedHSQLDialect
+  datasource:
+    data: classpath*:hsql/*.sql
 stlcourts:
   runHeadless: true
+  security:
+    municipalitySalt: ${MUNICIPALITY_SALT}
+    judgeSalt: ${JUDGE_SALT}
+    courtSalt: ${COURT_SALT}
 management:
   port: 8080
 ---
 spring:
   profiles: localWithHSQLAccess
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    properties:
+      hibernate:
+        dialect: svc.dialects.ImprovedHSQLDialect
+  datasource:
+    data: classpath*:hsql/*.sql
 stlcourts:
   runHeadless: false
+  security:
+    municipalitySalt: ${MUNICIPALITY_SALT}
+    judgeSalt: ${JUDGE_SALT}
+    courtSalt: ${COURT_SALT}
 ---
 spring:
   profiles: qa
+  jpa:
+    hibernate:
+      ddl-auto: none
 spring.datasource:
   driverClassName: com.mysql.jdbc.Driver
   url: jdbc:mysql:${MYSQL_URL}?useUnicode=true&amp;characterEncoding=UTF-8
@@ -41,9 +68,16 @@ spring.datasource:
   validationQuery: SELECT 1
 stlcourts:
   runHeadless: true
+  security:
+    municipalitySalt: ${MUNICIPALITY_SALT}
+    judgeSalt: ${JUDGE_SALT}
+    courtSalt: ${COURT_SALT}
 ---
 spring:
   profiles: prod
+  jpa:
+    hibernate:
+      ddl-auto: none
 spring.datasource:
   driverClassName: com.mysql.jdbc.Driver
   url: jdbc:mysql:${MYSQL_URL}?useUnicode=true&amp;characterEncoding=UTF-8
@@ -54,3 +88,7 @@ spring.datasource:
   validationQuery: SELECT 1
 stlcourts:
   runHeadless: true
+  security:
+    municipalitySalt: ${MUNICIPALITY_SALT}
+    judgeSalt: ${JUDGE_SALT}
+    courtSalt: ${COURT_SALT}
