@@ -1,6 +1,7 @@
 package svc.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,8 +27,8 @@ public class CourtController {
 	}
 	
 	@GetMapping(value = "courts/{id}")
-	public Court getOne(@PathVariable final Long id){
-		return courtRepository.findOne(id);
+	public Optional<Court> getOne(@PathVariable final Long id){
+		return courtRepository.findById(id);
 		 
 	}
 	
@@ -38,7 +39,7 @@ public class CourtController {
 	
 	@DeleteMapping(value = "courts/{id}")
 	public void delete(@PathVariable final Long id){
-		courtRepository.delete(id);
+		courtRepository.deleteById(id);
 	}
 	
 }

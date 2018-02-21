@@ -1,6 +1,7 @@
 package svc.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -28,8 +29,8 @@ public class JudgeController {
 	}
 	
 	@GetMapping(value = "judges/{id}")
-	public Judge getOne(@PathVariable final Long id){
-		return judgeRepository.findOne(id);
+	public Optional<Judge> getOne(@PathVariable final Long id){
+		return judgeRepository.findById(id);
 	}
 	
 	@PostMapping(value = "judges")
@@ -39,7 +40,7 @@ public class JudgeController {
 	
 	@DeleteMapping(value = "judges/{id}")
 	public void delete(@PathVariable final Long id){
-		judgeRepository.delete(id);
+		judgeRepository.deleteById(id);
 	}
 }
 

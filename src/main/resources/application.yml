@@ -1,10 +1,13 @@
 server:
   port: 8080
-  contextPath: /admin-api
+  servlet:
+    contextPath: /admin-api
 
 management:
-  context-path: /manage
-  port: -1
+  server:
+    servlet:
+      context-path: /manage
+    port: -1
 
 logging:
   level:
@@ -34,7 +37,8 @@ stlcourts:
     judgeSalt: ${JUDGE_SALT}
     courtSalt: ${COURT_SALT}
 management:
-  port: 8080
+  server:
+    port: 8080
 ---
 spring:
   profiles: localWithHSQLAccess
