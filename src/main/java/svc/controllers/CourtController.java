@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import svc.exceptions.NotFoundException;
 import svc.models.Court;
 import svc.repositories.CourtRepository;
 
@@ -27,9 +28,12 @@ public class CourtController {
 	}
 	
 	@GetMapping(value = "courts/{id}")
-	public Optional<Court> getOne(@PathVariable final Long id){
-		return courtRepository.findById(id);
-		 
+	public Optional<Court> getOne(@PathVariable final Long id) throws NotFoundException{
+		Optional<Court> optionalCourt = courtRepository.findById(id);
+		if (!optionalCourt.isPresent()){
+			throw new NotFoundException("Court Not Found");
+		}
+		return optionalCourt;
 	}
 	
 	@PostMapping(value = "courts")

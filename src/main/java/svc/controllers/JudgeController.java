@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import svc.exceptions.NotFoundException;
 import svc.models.Judge;
 import svc.repositories.JudgeRepository;
 
@@ -29,8 +30,12 @@ public class JudgeController {
 	}
 	
 	@GetMapping(value = "judges/{id}")
-	public Optional<Judge> getOne(@PathVariable final Long id){
-		return judgeRepository.findById(id);
+	public Optional<Judge> getOne(@PathVariable final Long id) throws NotFoundException{
+		Optional<Judge> optionalJudge =  judgeRepository.findById(id);
+		if (!optionalJudge.isPresent()){
+			throw new NotFoundException("Judge Not Found");
+		}
+		return optionalJudge;
 	}
 	
 	@PostMapping(value = "judges")
