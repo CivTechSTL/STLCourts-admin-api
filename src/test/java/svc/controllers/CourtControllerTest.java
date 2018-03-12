@@ -16,6 +16,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import svc.exceptions.NotFoundException;
 import svc.models.Court;
 import svc.repositories.CourtRepository;
 
@@ -46,7 +47,7 @@ public class CourtControllerTest {
 	}
 	
 	@Test
-	public void getsOne(){
+	public void getsOne() throws NotFoundException{
 		Court court1 = new Court();
 		court1.setId(1L);
 		court1.setName("One Court");
