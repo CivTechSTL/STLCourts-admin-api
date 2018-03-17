@@ -28,6 +28,10 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		 <dependency>
@@ -125,6 +129,11 @@
 	      <artifactId>google-api-services-oauth2</artifactId>
 	      <version>v1-rev139-1.23.0</version>
 	    </dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-oauth2-client</artifactId>
+			<version>5.0.3.RELEASE</version>
+		</dependency>
 	</dependencies>
 
 	<build>

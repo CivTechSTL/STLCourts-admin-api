@@ -21,8 +21,9 @@ public class GoogleSignInController {
 	public String googleSignIn(@RequestBody final SignInToken signInToken) throws GeneralSecurityException, IOException{
 		System.out.println("Received Token: " + signInToken.getToken());
 		
-		String result = loginManager.verifyGoogleToken(signInToken.getToken());
-		return result;
+//		String result = loginManager.verifyGoogleToken(signInToken.getToken());
+//		return result;
+		return "hello";
 	}
 
 }
