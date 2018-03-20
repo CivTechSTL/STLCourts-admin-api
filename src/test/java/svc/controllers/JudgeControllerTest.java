@@ -74,4 +74,10 @@ public class JudgeControllerTest {
 		controller.delete(2L);
 		verify(mockJudgeRepository).deleteById(2L);
 	}
+	
+	@Test (expected = NotFoundException.class)
+	public void ThrowsNotFoundExceptionWhenJudgeNotFound(){
+		when(mockJudgeRepository.findById(1L)).thenReturn(Optional.empty());
+		controller.getOne(1L);
+	}
 }
