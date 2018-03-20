@@ -1,6 +1,6 @@
 package svc.exceptions;
 
-public class NotFoundException extends Exception {
+public class NotFoundException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 	private String message = null;
 	
