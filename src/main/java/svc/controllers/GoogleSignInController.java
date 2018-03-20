@@ -17,15 +17,16 @@ public class GoogleSignInController {
 	@Autowired
 	LoginManager loginManager;
 	
-	@PostMapping(value = "googleSignin")
-	public String googleSignIn(@RequestBody final SignInToken signInToken) throws GeneralSecurityException, IOException{
-		System.out.println("Received Token: " + signInToken.getToken());
+/*	@PostMapping(value = "googleSignin")
+	//public String googleSignIn(@RequestBody final SignInToken signInToken) throws GeneralSecurityException, IOException{
+	public String googleSignIn() throws GeneralSecurityException, IOException{
+		// System.out.println("Received Token: " + signInToken.getToken());
 		
 //		String result = loginManager.verifyGoogleToken(signInToken.getToken());
 //		return result;
 		return "hello";
 	}
-
+*/
 }
 
 
