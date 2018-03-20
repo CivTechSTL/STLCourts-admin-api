@@ -75,4 +75,10 @@ public class CourtControllerTest {
 		controller.delete(2L);
 		verify(mockCourtRepository).deleteById(2L);
 	}
+	
+	@Test (expected = NotFoundException.class)
+	public void ThrowsExceptionWhenCourtNotFound(){
+		when(mockCourtRepository.findById(1L)).thenReturn(Optional.empty());
+		controller.getOne(1L);
+	}
 }
