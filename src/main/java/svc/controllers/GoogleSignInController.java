@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import svc.mangers.LoginManager;
+import svc.models.NewTokenResponse;
 import svc.models.SignInToken;
 
 @RestController
@@ -17,16 +18,14 @@ public class GoogleSignInController {
 	@Autowired
 	LoginManager loginManager;
 	
-/*	@PostMapping(value = "googleSignin")
-	//public String googleSignIn(@RequestBody final SignInToken signInToken) throws GeneralSecurityException, IOException{
-	public String googleSignIn() throws GeneralSecurityException, IOException{
-		// System.out.println("Received Token: " + signInToken.getToken());
+	@PostMapping(value = "googleSignin")
+	public NewTokenResponse googleSignIn(@RequestBody final SignInToken signInToken) throws GeneralSecurityException, IOException{
+		 System.out.println("Received Token: " + signInToken.getToken());
 		
-//		String result = loginManager.verifyGoogleToken(signInToken.getToken());
-//		return result;
-		return "hello";
+		NewTokenResponse result = loginManager.verifyGoogleTokenAndGetSecurityTokens(signInToken.getToken());
+		return result;
 	}
-*/
+
 }
 
 

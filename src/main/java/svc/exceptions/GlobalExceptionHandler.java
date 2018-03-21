@@ -19,4 +19,11 @@ public class GlobalExceptionHandler {
 		String msg = (e.getMessage() != "")?e.getMessage():"Result Not Found";
 		return (msg);
 	}
+	
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@ExceptionHandler(NotAuthorizedException.class)
+	public String handleNotAuthorizedException(NotAuthorizedException e){
+		String msg = (e.getMessage() != "")?e.getMessage():"UnAuthorized";
+		return (msg);
+	}
 }

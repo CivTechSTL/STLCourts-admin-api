@@ -31,12 +31,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	SimpleCORSFilter corsFilter;
 	
-	private LoginAuthenticationProcessingFilter loginFilter() {
+/*	private LoginAuthenticationProcessingFilter loginFilter() {
 		LoginAuthenticationProcessingFilter filter = new LoginAuthenticationProcessingFilter(AUTHENTICATION_URL, objectMapper);
 		
 		return filter;
 	}
-
+*/
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		List<String> permitAllEndpointList = Arrays.asList(
@@ -56,8 +56,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
                 .permitAll()
             .and()
-            	.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class)
-            	.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+            	.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class);
+            	//.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
             
             
 		

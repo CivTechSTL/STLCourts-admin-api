@@ -15,6 +15,9 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+import svc.exceptions.NotAuthorizedException;
+import svc.jwt.factory.JwtTokenFactory;
+import svc.models.NewTokenResponse;
 import svc.models.User;
 import svc.repositories.UserRepository;
 
@@ -23,6 +26,9 @@ public class LoginManager {
 	
 	@Autowired
 	UserRepository userRepository;
+	
+	@Autowired
+	JwtTokenFactory jwtTokenFactory;
 	
 	private static final HttpTransport transport = new NetHttpTransport();
 	private static final JsonFactory jsonFactory = new JacksonFactory();
@@ -34,7 +40,7 @@ public class LoginManager {
 		    //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
 		    .build();
 
-	public String verifyGoogleToken(String idTokenString) throws GeneralSecurityException, IOException{
+	public NewTokenResponse verifyGoogleTokenAndGetSecurityTokens(String idTokenString) throws GeneralSecurityException, NotAuthorizedException, IOException{
 		GoogleIdToken idToken = verifier.verify(idTokenString);
 		if (idToken != null) {
 		  Payload payload = idToken.getPayload();
@@ -58,15 +64,17 @@ public class LoginManager {
 		  User user = userRepository.findByEmail(email);
 		  
 		  if (user != null){
-		  return name + " has role: " + user.getRole().toString();
+			  String jwtToken = jwtTokenFactory.createAccessJwtToken(user);
+			  String jwtRefreshToken = jwtTokenFactory.createRefreshToken(user);
+			  return new NewTokenResponse(jwtToken, jwtRefreshToken);
+			  // return name + " has role: " + user.getRole().toString();
 		  }
 		  else{
-			  return null;
+			  throw new NotAuthorizedException("User does not exist.");
 		  }
 	
 		} else {
-		  System.out.println("Invalid ID token.");
-		  return null;
+		  throw new NotAuthorizedException();
 		}
 	}
 }

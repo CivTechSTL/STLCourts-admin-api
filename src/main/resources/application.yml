@@ -9,6 +9,13 @@ management:
       context-path: /manage
     port: -1
 
+stlcourts:
+  security:
+    jwt:
+      tokenExpirationTime: 15 # Number of minutes
+      refreshTokenExpTime: 60 # Minutes
+      tokenIssuer: http://yourSTLCourts.com
+      tokenSigningKey: ${JWT_TOKEN_SIGNING_KEY}
 ---
 spring:
   profiles.active: local
