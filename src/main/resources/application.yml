@@ -9,6 +9,13 @@ management:
       context-path: /manage
     port: -1
 
+logging:
+  level:
+    root: 'WARN'
+    org.springframework.http.client: 'OFF'
+    org.springframework.web.client: 'OFF'
+    sun.net.www.protocol.http: 'OFF'
+
 stlcourts:
   security:
     jwt:
@@ -16,6 +23,7 @@ stlcourts:
       refreshTokenExpTime: 60 # Minutes
       tokenIssuer: http://yourSTLCourts.com
       tokenSigningKey: ${JWT_TOKEN_SIGNING_KEY}
+
 ---
 spring:
   profiles.active: local
