@@ -8,13 +8,15 @@ import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 
+import svc.exceptions.NotFoundException;
 import svc.models.Judge;
 import svc.repositories.JudgeRepository;
 
@@ -45,14 +47,15 @@ public class JudgeControllerTest {
 	}
 	
 	@Test
-	public void getsOne(){
+	public void getsOne() throws NotFoundException{
 		Judge judge1 = new Judge();
 		judge1.setId(1L);
 		judge1.setJudge("One Judge");
+		Optional<Judge> oJudge = Optional.of(judge1);
 		
-		when(mockJudgeRepository.findOne(anyLong())).thenReturn(judge1);
-		Judge judge = controller.getOne(1L);
-		assertThat(judge, equalTo(judge1));
+		when(mockJudgeRepository.findById(anyLong())).thenReturn(oJudge);
+		Optional<Judge> judge = controller.getOne(1L);
+		assertThat(judge, equalTo(oJudge));
 	}
 	
 	@Test
@@ -69,6 +72,12 @@ public class JudgeControllerTest {
 	@Test
 	public void deletes(){
 		controller.delete(2L);
-		verify(mockJudgeRepository).delete(2L);
+		verify(mockJudgeRepository).deleteById(2L);
+	}
+	
+	@Test (expected = NotFoundException.class)
+	public void ThrowsNotFoundExceptionWhenJudgeNotFound(){
+		when(mockJudgeRepository.findById(1L)).thenReturn(Optional.empty());
+		controller.getOne(1L);
 	}
 }

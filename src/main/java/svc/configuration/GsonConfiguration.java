@@ -10,7 +10,7 @@ import java.time.format.DateTimeFormatter;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.http.converter.*;
 
 import com.google.gson.Gson;
@@ -21,12 +21,11 @@ import com.google.gson.stream.JsonWriter;
 
 @Configuration
 @EnableWebMvc
-public class GsonConfiguration extends WebMvcConfigurerAdapter {
+public class GsonConfiguration implements WebMvcConfigurer {
 	
-	 @Override
+	@Override
 	 public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        converters.add(createGsonHttpMessageConverter());
-        super.configureMessageConverters(converters);
+       converters.add(createGsonHttpMessageConverter());
 	 }
 
 	 private GsonHttpMessageConverter createGsonHttpMessageConverter() {
