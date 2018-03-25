@@ -1,4 +1,4 @@
-package svc.jwt.factory;
+package svc.security.jwt.factory;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -41,6 +41,7 @@ public class JwtTokenFactory {
             throw new IllegalArgumentException("User doesn't have any privileges");
 
         Claims claims = Jwts.claims().setSubject(user.getEmail());
+       
         claims.put("scopes", user.getRole().toString());
 
         LocalDateTime currentTime = LocalDateTime.now();

@@ -19,7 +19,7 @@ logging:
 stlcourts:
   security:
     jwt:
-      tokenExpirationTime: 15 # Number of minutes
+      tokenExpirationTime: 1 # Number of minutes
       refreshTokenExpTime: 60 # Minutes
       tokenIssuer: http://yourSTLCourts.com
       tokenSigningKey: ${JWT_TOKEN_SIGNING_KEY}
@@ -30,6 +30,7 @@ spring:
 ---
 spring:
   profiles: local
+  allowedOrigin: http://localhost:4200
   jpa:
     hibernate:
       ddl-auto: create-drop
@@ -50,6 +51,7 @@ management:
 ---
 spring:
   profiles: localWithHSQLAccess
+  allowedOrigin: http://localhost:4200
   jpa:
     hibernate:
       ddl-auto: create-drop

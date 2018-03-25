@@ -4,7 +4,9 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,52 +14,72 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import svc.CustomCorsFilter;
 
 import svc.SimpleCORSFilter;
+import svc.models.User;
+import svc.security.JwtRequestMatcher;
 import svc.security.RestAuthenticationEntryPoint;
-import svc.security.auth.login.LoginAuthenticationProcessingFilter;
+import svc.security.jwt.JwtAuthenticationManager;
+import svc.security.jwt.JwtTokenAuthenticationProcessingFilter;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	private static final String AUTHENTICATION_URL = "/googleSignin";
+	public static final String AUTHENTICATION_HEADER_NAME = "Authorization";
+	public static final String AUTHENTICATION_URL = "/googleSignin";
+	public static final String REFRESH_TOKEN_URL = "/refreshToken";
+	public static final String API_ROOT_URL = "/**";
 	
 	@Autowired
 	RestAuthenticationEntryPoint authenticationEntryPoint;
 	
 	@Autowired
-	ObjectMapper objectMapper;
+	JwtAuthenticationManager authenticationManager;
 	
 	@Autowired
-	SimpleCORSFilter corsFilter;
+	ObjectMapper objectMapper;
 	
-/*	private LoginAuthenticationProcessingFilter loginFilter() {
-		LoginAuthenticationProcessingFilter filter = new LoginAuthenticationProcessingFilter(AUTHENTICATION_URL, objectMapper);
-		
-		return filter;
+	@Value("${spring.allowedOrigin}")
+	public String allowedOrigin;
+	
+	protected JwtTokenAuthenticationProcessingFilter buildJwtTokenAuthenticationProcessingFilter(List<String> pathsToSkip, String pattern) throws Exception {
+		JwtRequestMatcher requestMatcher = new JwtRequestMatcher(pathsToSkip, pattern);
+		JwtTokenAuthenticationProcessingFilter filter = new JwtTokenAuthenticationProcessingFilter(requestMatcher);
+	    filter.setAuthenticationManager(this.authenticationManager);
+	    return filter;
 	}
-*/
+	 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		List<String> permitAllEndpointList = Arrays.asList(
-				WebSecurityConfig.AUTHENTICATION_URL
+				AUTHENTICATION_URL,
+				REFRESH_TOKEN_URL
 	        );
 		
 		http
-			.csrf().disable()
-			.exceptionHandling()
-            .authenticationEntryPoint(this.authenticationEntryPoint)
+		.csrf().disable()
+		.exceptionHandling()
+        .authenticationEntryPoint(this.authenticationEntryPoint)
 
-            .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and()
-                .authorizeRequests()
-                .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
-                .permitAll()
-            .and()
-            	.addFilterBefore(corsFilter, UsernamePasswordAuthenticationFilter.class);
-            	//.addFilterBefore(loginFilter(), UsernamePasswordAuthenticationFilter.class);
+        .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        .and()
+            .authorizeRequests()
+            .antMatchers(permitAllEndpointList.toArray(new String[permitAllEndpointList.size()]))
+            .permitAll()
+        .and()
+        	.authorizeRequests()    
+        	.antMatchers("/admin/**")
+            .hasAuthority(User.ROLES.ADMIN.toString())
+         .and()
+         	.authorizeRequests()
+            .antMatchers("/**")
+            .hasAnyAuthority(User.ROLES.USER.toString(), User.ROLES.ADMIN.toString())
+        .and()
+        	.addFilterBefore(new CustomCorsFilter(allowedOrigin), UsernamePasswordAuthenticationFilter.class)
+        	.addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList, API_ROOT_URL), UsernamePasswordAuthenticationFilter.class);
             
             
 		

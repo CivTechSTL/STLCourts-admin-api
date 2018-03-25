@@ -1,6 +1,6 @@
 package svc.models;
 
-public class SignInToken {
+public class BasicToken {
 	private String token;
 
 	public String getToken() {
