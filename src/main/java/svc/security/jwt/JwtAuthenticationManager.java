@@ -9,7 +9,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
+import svc.exceptions.NotAuthorizedException;
 import svc.models.JwtAuthenticationToken;
 import svc.security.UserAuthority;
 import svc.security.config.JwtSettings;
@@ -25,12 +27,15 @@ public class JwtAuthenticationManager implements AuthenticationManager {
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	@Override
 	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-		// List<GrantedAuthority> grantedAuthorities = (List<GrantedAuthority>) authentication.getCredentials();
 		String token = ((JwtAuthenticationToken) authentication).getToken();
-		
-		UserAuthority scope = new UserAuthority((String)Jwts.parser().setSigningKey(this.settings.getTokenSigningKey()).parseClaimsJws(token).getBody().get("scopes"));
-		String email = Jwts.parser().setSigningKey(this.settings.getTokenSigningKey()).parseClaimsJws(token).getBody().getSubject();
-		
+		UserAuthority scope = null;
+		String email = null;
+		try{
+			scope = new UserAuthority((String)Jwts.parser().setSigningKey(this.settings.getTokenSigningKey()).parseClaimsJws(token).getBody().get("scopes"));
+			email = Jwts.parser().setSigningKey(this.settings.getTokenSigningKey()).parseClaimsJws(token).getBody().getSubject();
+		}catch(ExpiredJwtException expiredEx){
+			throw new NotAuthorizedException("JWT is Expired");
+		}
 		List<GrantedAuthority> authorities = new ArrayList();
 		authorities.add(scope);
        
