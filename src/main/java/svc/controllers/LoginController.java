@@ -20,19 +20,14 @@ public class LoginController {
 	
 	@PostMapping(value = "googleSignin")
 	public NewTokenResponse googleSignIn(@RequestBody final BasicToken signInToken) throws GeneralSecurityException, IOException{
-		 System.out.println("Received Token: " + signInToken.getToken());
-		
 		NewTokenResponse result = loginManager.verifyGoogleTokenAndGetSecurityTokens(signInToken.getToken());
 		return result;
 	}
 	
 	@PostMapping(value = "refreshToken")
 	public NewTokenResponse refreshToken(@RequestBody final BasicToken refreshToken) throws GeneralSecurityException, IOException{
-		 System.out.println("Received Refresh Token: " + refreshToken.getToken());
-		
 		NewTokenResponse result = loginManager.verifyRefreshTokenAndGenerateNewSecurityTokens(refreshToken.getToken());
 		return result;
-		 
 	}
 
 }

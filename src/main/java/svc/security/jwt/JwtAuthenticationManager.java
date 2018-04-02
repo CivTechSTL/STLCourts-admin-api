@@ -35,13 +35,13 @@ public class JwtAuthenticationManager implements AuthenticationManager {
 			email = Jwts.parser().setSigningKey(this.settings.getTokenSigningKey()).parseClaimsJws(token).getBody().getSubject();
 		}catch(ExpiredJwtException expiredEx){
 			throw new NotAuthorizedException("JWT is Expired");
+		}catch(Exception e){
+			throw new NotAuthorizedException("Error Authorizing JWT");
 		}
 		List<GrantedAuthority> authorities = new ArrayList();
 		authorities.add(scope);
        
 		JwtAuthenticationToken jwtAuthenticationToken = new JwtAuthenticationToken(token, authorities, email);
-		
-		System.out.println("In Authenticate, authorityCount = "+jwtAuthenticationToken.getAuthorities().size());
         
         return jwtAuthenticationToken;
 	}

@@ -19,7 +19,7 @@ logging:
 stlcourts:
   security:
     jwt:
-      tokenExpirationTime: 1 # Number of minutes
+      tokenExpirationTime: 5 # Number of minutes
       refreshTokenExpTime: 60 # Minutes
       tokenIssuer: http://yourSTLCourts.com
       tokenSigningKey: ${JWT_TOKEN_SIGNING_KEY}

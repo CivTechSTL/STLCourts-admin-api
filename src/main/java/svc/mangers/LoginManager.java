@@ -46,15 +46,12 @@ public class LoginManager {
 	GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
 		    // Specify the CLIENT_ID of the app that accesses the backend:
 		    .setAudience(Collections.singletonList("586136797966-6gdr7aslkoa16l23klro33dkic52dpvp.apps.googleusercontent.com"))
-		    // Or, if multiple clients access the backend:
-		    //.setAudience(Arrays.asList(CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3))
 		    .build();
 
 	public NewTokenResponse verifyGoogleTokenAndGetSecurityTokens(String idTokenString) throws GeneralSecurityException, NotAuthorizedException, IOException{
 		GoogleIdToken idToken = verifier.verify(idTokenString);
 		if (idToken != null) {
 		  Payload payload = idToken.getPayload();
-		  String userId = payload.getSubject();
 	
 		  // Get profile information from payload
 		  String email = payload.getEmail();

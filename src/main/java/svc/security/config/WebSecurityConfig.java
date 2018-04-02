@@ -6,7 +6,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -16,7 +15,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.fasterxml.jackson.databind.ObjectMapper;
 import svc.CustomCorsFilter;
 
-import svc.SimpleCORSFilter;
 import svc.models.User;
 import svc.security.JwtRequestMatcher;
 import svc.security.RestAuthenticationEntryPoint;
@@ -80,8 +78,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         .and()
         	.addFilterBefore(new CustomCorsFilter(allowedOrigin), UsernamePasswordAuthenticationFilter.class)
         	.addFilterBefore(buildJwtTokenAuthenticationProcessingFilter(permitAllEndpointList, API_ROOT_URL), UsernamePasswordAuthenticationFilter.class);
-            
-            
 		
 		super.configure(http);
 	}
