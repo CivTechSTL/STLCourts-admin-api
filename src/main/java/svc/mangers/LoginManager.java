@@ -45,7 +45,7 @@ public class LoginManager {
 	/* see: ttps://developers.google.com/identity/sign-in/web/backend-auth */
 	GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
 		    // Specify the CLIENT_ID of the app that accesses the backend:
-		    .setAudience(Collections.singletonList("586136797966-6gdr7aslkoa16l23klro33dkic52dpvp.apps.googleusercontent.com"))
+		    .setAudience(Collections.singletonList("473553693292-s73tvaovrej8gfiijto1mk8ag30g8ck9.apps.googleusercontent.com"))
 		    .build();
 
 	public NewTokenResponse verifyGoogleTokenAndGetSecurityTokens(String idTokenString) throws GeneralSecurityException, NotAuthorizedException, IOException{
