@@ -11,6 +11,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 
 public class LoginUser implements OAuth2User {
 	private HashMap<String, Object> map = new HashMap<String, Object>();
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private List<? extends GrantedAuthority> grantedAuthorities = new ArrayList();
 	
 	@Override
