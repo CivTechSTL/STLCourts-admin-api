@@ -16,7 +16,6 @@ public class GlobalExceptionHandler {
 	@ResponseStatus(HttpStatus.NOT_FOUND)
 	@ExceptionHandler(NotFoundException.class)
 	public String handleNotFoundException(NotFoundException e){
-		System.out.println("In GlobalExceptionHandler");
 		String msg = (e.getMessage() != "")?e.getMessage():"Result Not Found";
 		return (msg);
 	}
