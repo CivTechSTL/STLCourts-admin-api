@@ -2,25 +2,19 @@ package svc.mangers;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
-import com.google.api.client.http.HttpTransport;
-import com.google.api.client.http.javanet.NetHttpTransport;
-import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
 
-import io.jsonwebtoken.Jwts;
 import svc.exceptions.NotAuthorizedException;
 import svc.models.NewTokenResponse;
 import svc.models.User;
 import svc.repositories.UserRepository;
-import svc.security.config.JwtSettings;
+import svc.security.GoogleTokenVerifier;
+import svc.security.JwtsUtility;
 import svc.security.jwt.factory.JwtTokenFactory;
 
 @Component
@@ -31,25 +25,15 @@ public class LoginManager {
 	
 	@Autowired
 	JwtTokenFactory jwtTokenFactory;
-	
-	private final JwtSettings settings;
-	
-	private static final HttpTransport transport = new NetHttpTransport();
-	private static final JsonFactory jsonFactory = new JacksonFactory();
+	 
+	@Autowired
+	GoogleTokenVerifier googleTokenVerifier;
 	
 	@Autowired
-    public LoginManager(JwtSettings settings) {
-        this.settings = settings;
-    }
+	JwtsUtility jwtsUtility;
 	
-	/* see: ttps://developers.google.com/identity/sign-in/web/backend-auth */
-	GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-		    // Specify the CLIENT_ID of the app that accesses the backend:
-		    .setAudience(Collections.singletonList("473553693292-s73tvaovrej8gfiijto1mk8ag30g8ck9.apps.googleusercontent.com"))
-		    .build();
-
 	public NewTokenResponse verifyGoogleTokenAndGetSecurityTokens(String idTokenString) throws GeneralSecurityException, NotAuthorizedException, IOException{
-		GoogleIdToken idToken = verifier.verify(idTokenString);
+		GoogleIdToken idToken = googleTokenVerifier.verify(idTokenString);
 		if (idToken != null) {
 		  Payload payload = idToken.getPayload();
 	
@@ -64,7 +48,7 @@ public class LoginManager {
 	
 	public NewTokenResponse verifyRefreshTokenAndGenerateNewSecurityTokens(String refreshToken){
 		//get user from refreshToken
-		String email = Jwts.parser().setSigningKey(this.settings.getTokenSigningKey()).parseClaimsJws(refreshToken).getBody().getSubject();
+		String email = jwtsUtility.getSubject(refreshToken);
 		
 		//verify that user is still a valid user and get their role in case it has changed
 		return createUser(email);
